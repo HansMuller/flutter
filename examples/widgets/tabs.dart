@@ -11,22 +11,21 @@ class TabbedNavigatorApp extends StatefulComponent {
 
 class TabbedNavigatorAppState extends State<TabbedNavigatorApp> {
   // The index of the selected tab for each of the TabNavigators constructed below.
-  List<int> selectedIndices = new List<int>.filled(5, 0);
+  //List<int> selectedIndices = new List<int>.filled(5, 0);
+  List<TabBarSelection> selections = new List.generate(5, (_) => new TabBarSelection());
 
   TabNavigator _buildTabNavigator(int n, List<TabNavigatorView> views, Key key, {isScrollable: false}) {
     return new TabNavigator(
       key: key,
       views: views,
-      selectedIndex: selectedIndices[n],
-      isScrollable: isScrollable,
-      onChanged: (int tabIndex) {
-        setState(() { selectedIndices[n] = tabIndex; } );
-      }
+      selection: selections[n],
+      isScrollable: isScrollable
     );
   }
 
   Widget _buildContent(String label) {
     return new Center(
+      key: new ValueKey(label),
       child: new Text(label, style: const TextStyle(fontSize: 48.0, fontWeight: FontWeight.w800))
     );
   }
@@ -96,6 +95,7 @@ class TabbedNavigatorAppState extends State<TabbedNavigatorApp> {
 
   Container _buildCard(BuildContext context, TabNavigator tabNavigator) {
     return new Container(
+      key: new ValueKey(tabNavigator),
       padding: const EdgeDims.all(12.0),
       child: new Card(child: new Padding(child: tabNavigator, padding: const EdgeDims.all(8.0)))
     );
@@ -122,7 +122,7 @@ class TabbedNavigatorAppState extends State<TabbedNavigatorApp> {
     ];
 
     TabNavigator tabNavigator = _buildTabNavigator(4, views, const ValueKey<String>('tabs'));
-    assert(selectedIndices.length == 5);
+    assert(selections.length == 5);
 
     ToolBar toolbar = new ToolBar(
       center: new Text('Tabbed Navigator', style: Typography.white.title),
