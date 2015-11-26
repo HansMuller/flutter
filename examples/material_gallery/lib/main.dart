@@ -9,6 +9,7 @@ import 'date_picker_demo.dart';
 import 'drop_down_demo.dart';
 import 'gallery_page.dart';
 import 'slider_demo.dart';
+import 'tabs_demo.dart';
 import 'time_picker_demo.dart';
 import 'widget_demo.dart';
 
@@ -18,6 +19,7 @@ final List<WidgetDemo> _kDemos = <WidgetDemo>[
   kDatePickerDemo,
   kTimePickerDemo,
   kDropDownDemo,
+  kTabsDemo,
 ];
 
 void main() {

@@ -615,16 +615,18 @@ class _TabBarState extends ScrollableState<TabBar> {
   }
 }
 
-class _TabView extends ScrollableList<TabNavigatorView> {
-  _TabView({
+class TabBarViews<T> extends ScrollableList<T> {
+  TabBarViews({
     Key key,
     this.selection,
-    items,
-    itemExtent
+    List<T> items,
+    ItemBuilder<T> itemBuilder,
+    double itemExtent
   }) : super(
     key: key,
     scrollDirection: ScrollDirection.horizontal,
     items: items,
+    itemBuilder: itemBuilder,
     itemExtent: itemExtent,
     itemsWrap: false
   ) {
@@ -633,7 +635,7 @@ class _TabView extends ScrollableList<TabNavigatorView> {
 
   final TabBarSelection selection;
 
-  _TabViewState createState() => new _TabViewState();
+  TabBarViewsState createState() => new TabBarViewsState<T>();
 }
 
 // TODO(hansmuller): horizontal scrolling should drive the TabSelection's performance.
@@ -641,7 +643,7 @@ class _NotScrollable extends BoundedBehavior {
   bool get isScrollable => false;
 }
 
-class _TabViewState extends ScrollableListState<TabNavigatorView, _TabView> {
+class TabBarViewsState<T> extends ScrollableListState<T, TabBarViews<T>> {
 
   ScrollBehavior createScrollBehavior() => new _NotScrollable();
 
@@ -681,7 +683,7 @@ class _TabViewState extends ScrollableListState<TabNavigatorView, _TabView> {
     super.dispose();
   }
 
-  void didUpdateConfig(_TabView oldConfig) {
+  void didUpdateConfig(TabBarViews oldConfig) {
     super.didUpdateConfig(oldConfig);
     if (oldConfig.itemExtent != config.itemExtent && !_performance.isAnimating)
       _initItemIndicesAndScrollPosition();
@@ -717,10 +719,12 @@ class _TabViewState extends ScrollableListState<TabNavigatorView, _TabView> {
     return _itemIndices
       .skip(start)
       .take(count)
-      .map((int itemIndex) => config.items[itemIndex].builder(context)).toList();
+      .map((int i) => config.itemBuilder(context, config.items[i], i))
+      .toList();
   }
 }
 
+/*
 class TabNavigatorView {
   TabNavigatorView({ this.label, this.builder }) {
     assert(builder != null);
@@ -773,7 +777,7 @@ class _TabNavigatorState extends State<TabNavigator> {
      new Flexible(
        child: new SizeObserver(
          onSizeChanged: _handleTabViewSizeChanged,
-         child: _viewWidth == null ? null : new _TabView(
+         child: _viewWidth == null ? null : new TabBarViews(
            selection: config.selection,
            items: config.views,
            itemExtent: _viewWidth
@@ -785,3 +789,4 @@ class _TabNavigatorState extends State<TabNavigator> {
    );
   }
 }
+*/
