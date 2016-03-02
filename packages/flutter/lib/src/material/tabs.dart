@@ -712,7 +712,6 @@ class _TabBarState<T> extends ScrollableState<TabBar<T>> implements TabBarSelect
     setState(() {
       _tabBarSize = tabBarSize;
       _tabWidths = tabWidths;
-      _updateScrollBehavior();
     });
   }
 
@@ -723,8 +722,9 @@ class _TabBarState<T> extends ScrollableState<TabBar<T>> implements TabBarSelect
     // render object via our return value.
     _viewportSize = dimensions.containerSize;
     _updateScrollBehavior();
-    if (config.isScrollable)
+    if (config.isScrollable) {
       scrollTo(_centeredTabScrollOffset(_selection.index), duration: _kTabBarScroll);
+    }
     return scrollOffsetToPixelDelta(scrollOffset);
   }
 
@@ -780,7 +780,7 @@ class _TabBarState<T> extends ScrollableState<TabBar<T>> implements TabBarSelect
     );
 
     if (config.isScrollable) {
-      child: new Viewport(
+      return new Viewport(
         scrollDirection: Axis.horizontal,
         paintOffset: scrollOffsetToPixelDelta(scrollOffset),
         onPaintOffsetUpdateNeeded: _handlePaintOffsetUpdateNeeded,
