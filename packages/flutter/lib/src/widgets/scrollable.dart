@@ -278,7 +278,7 @@ class ScrollableState extends State<Scrollable> with TickerProviderStateMixin
         return true;
       newPhysics = newPhysics?.parent;
       oldPhysics = oldPhysics?.parent;
-    } while(newPhysics != null || oldPhysics != null);
+    } while (newPhysics != null || oldPhysics != null);
 
     return widget.controller?.runtimeType != oldWidget.controller?.runtimeType;
   }
