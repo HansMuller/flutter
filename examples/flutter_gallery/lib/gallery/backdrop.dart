@@ -47,7 +47,7 @@ class _IgnorePointerWhileStatusIsNotState extends State<_IgnorePointerWhileStatu
   void initState() {
     super.initState();
     widget.controller.addStatusListener(_handleStatusChange);
-    _ignoring = widget.controller.status != AnimationStatus.completed;
+    _ignoring = widget.status != AnimationStatus.completed;
   }
 
   @override
@@ -57,7 +57,7 @@ class _IgnorePointerWhileStatusIsNotState extends State<_IgnorePointerWhileStatu
   }
 
   void _handleStatusChange(AnimationStatus _) {
-    bool value = widget.controller.status != widget.status;
+    final bool value = widget.controller.status != widget.status;
     if (_ignoring != value) {
       setState(() {
         _ignoring = value;
@@ -264,6 +264,7 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
                 child1: widget.backTitle,
               ),
               trailing: new IconButton(
+                tooltip: 'Toggle options',
                 onPressed: _toggleFrontLayer,
                 icon: new AnimatedIcon(
                   icon: AnimatedIcons.close_menu,
@@ -306,14 +307,16 @@ class _BackdropState extends State<Backdrop> with SingleTickerProviderStateMixin
         ),
         new PositionedTransition(
           rect: frontRelativeRect,
-          child: new Container(
-            alignment: Alignment.topLeft,
-            child: new GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: _toggleFrontLayer,
-              onVerticalDragUpdate: _handleDragUpdate,
-              onVerticalDragEnd: _handleDragEnd,
-              child: widget.frontHeading,
+          child: new ExcludeSemantics(
+            child: new Container(
+              alignment: Alignment.topLeft,
+              child: new GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _toggleFrontLayer,
+                onVerticalDragUpdate: _handleDragUpdate,
+                onVerticalDragEnd: _handleDragEnd,
+                child: widget.frontHeading,
+              ),
             ),
           ),
         ),
