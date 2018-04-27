@@ -111,7 +111,7 @@ class _CrossFadeTransition extends AnimatedWidget {
           ),
         ),
         new IgnorePointer(
-          ignoring: opacity2 <1.0,
+          ignoring: opacity2 < 1.0,
           child: new Opacity(
             opacity: opacity2,
             child: child0,
