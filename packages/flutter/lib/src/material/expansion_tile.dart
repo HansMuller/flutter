@@ -4,6 +4,7 @@
 
 import 'package:flutter/widgets.dart';
 
+import 'color_scheme.dart';
 import 'colors.dart';
 import 'icons.dart';
 import 'list_tile.dart';
@@ -257,13 +258,14 @@ class _ExpansionTileState extends State<ExpansionTile> with SingleTickerProvider
   @override
   void didChangeDependencies() {
     final ThemeData theme = Theme.of(context);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     _borderColorTween.end = theme.dividerColor;
     _headerColorTween
       ..begin = theme.textTheme.subtitle1!.color
-      ..end = theme.accentColor;
+      ..end = colorScheme.secondary;
     _iconColorTween
       ..begin = theme.unselectedWidgetColor
-      ..end = theme.accentColor;
+      ..end = colorScheme.secondary;
     _backgroundColorTween
       ..begin = widget.collapsedBackgroundColor
       ..end = widget.backgroundColor;
