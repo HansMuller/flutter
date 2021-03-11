@@ -258,7 +258,7 @@ class _ExpansionTileState extends State<ExpansionTile> with SingleTickerProvider
   @override
   void didChangeDependencies() {
     final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final ColorScheme colorScheme = theme.colorScheme;
     _borderColorTween.end = theme.dividerColor;
     _headerColorTween
       ..begin = theme.textTheme.subtitle1!.color
